@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <script src="/js/load.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/background.js"></script>
+</head>
+
+<body>
+    <div id="tpl">
+        <div id="VueCtr" v-bind:style="{left:left+'px'}" style="position: fixed;height: 400px;width: 293px;top: 200px;left: 0px;z-index: 999;border-top-right-radius: 10px;border-bottom-right-radius: 10px">
+            <div style="height: 100%;float: left;width: 48px;background-color:#e9e9e9">
+                <ul style="margin: 0px;padding: 4px;text-align: center">
+                    <li @click="selectTab(1)" style="list-style: none;cursor: pointer;height: 60px;margin: 0px;position: relative">
+                        <div style="width:40px;height:40px;background-image:url('http://tvcic-public.oss-cn-shenzhen.aliyuncs.com/uploads/productauth/d7dbfd8c67534101ac1298e6b985e39c.png')"></div>
+                        <div>图片</div>
+                        <div v-show="picSelected" style="height: 10px;width: 10px;background-color: rgb(245, 247, 249);position: absolute;right: -9px;top: 25px;transform: matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 0)"></div>
+                    </li>
+                    <li @click="selectTab(2)" style="list-style: none;cursor: pointer;height: 60px;margin: 0px;position: relative">
+                        <div style="width:40px;height:40px;background-image:url('http://tvcic-public.oss-cn-shenzhen.aliyuncs.com/uploads/productauth/e7c76e331ab5487bb89d44cfa62f7b28.png')"></div>
+                        <div>文字</div>
+                        <div v-show="wordSelected" style="height: 10px;width: 10px;background-color: rgb(245, 247, 249);position: absolute;right: -9px;top: 25px;transform: matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 0)"></div>
+                    </li>
+                    <li @click="selectTab(3)" style="list-style: none;cursor: pointer;height: 60px;margin: 0px;position: relative">
+                        <div style="width:40px;height:40px;background-image:url('http://tvcic-public.oss-cn-shenzhen.aliyuncs.com/uploads/productauth/81de5c13c5c64269b878c7825bc3d9d4.png')"></div>
+                        <div>图文</div>
+                        <div v-show="picWordSelected" style="height: 10px;width: 10px;background-color: rgb(245, 247, 249);position: absolute;right: -9px;top: 25px;transform: matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 0)"></div>
+                    </li>
+                    <li @click="selectTab(4)" style="list-style: none;cursor: pointer;height: 60px;margin: 0px;position: relative">
+                        <div style="width:40px;height:40px;background-image:url('http://tvcic-public.oss-cn-shenzhen.aliyuncs.com/uploads/productauth/44855f8833454f96bec5a9fa0b06ab21.png')"></div>
+                        <div>表格</div>
+                        <div v-show="tableSelected" style="height: 10px;width: 10px;background-color: rgb(245, 247, 249);position: absolute;right: -9px;top: 25px;transform: matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 0)"></div>
+                    </li>
+                </ul>
+            </div>
+            <div style="height: 100%;float: left;width: 219px;background-color: white;border-top: 1px solid #e9e9e9;border-right: 1px solid #e9e9e9;border-bottom: 1px solid #e9e9e9;padding-left: 5px">
+                <div v-show="picSelected" id="PicContent">
+                    <div style="height: 20px;line-height: 20px;border-bottom: 1px solid #e9e9e9;text-align: center">添加图片排版</div>
+                    <div style="overflow: auto;height: 380px">
+                        <ul class="list" style="margin: 0px;text-align: center">
+                            <li id="drag1" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1VpSIJpXXXXbjXVXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag2" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1YGm5JpXXXXcqXXXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag3" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1NHSBJpXXXXXzaXXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag4" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1S5GSJpXXXXadXFXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag5" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1z61TJpXXXXXpXFXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag6" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1Db9ZJpXXXXauXpXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag7" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1Zlq3JpXXXXc2XXXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag8" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1xMOQJpXXXXamXFXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div v-show="wordSelected" id="WordContent">
+                    <div style="height: 20px;line-height: 20px;border-bottom: 1px solid #e9e9e9;text-align: center">添加文字排版</div>
+                    <div style="overflow: auto;height: 380px">
+                        <ul class="list" style="margin: 0px;text-align: center">
+                            <li id="drag9" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1ateNJpXXXXcjXFXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag10" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1lNGLJpXXXXXeXVXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag11" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1jLaOJpXXXXboXFXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag12" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1M0KKJpXXXXXHXVXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag13" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1pASRJpXXXXaBXFXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag14" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB17EOHJpXXXXbMXVXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag15" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1ThKOJpXXXXbGXFXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag16" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1v09JJpXXXXaBXVXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div v-show="picWordSelected" id="PicWordContent">
+                    <div style="height: 20px;line-height: 20px;border-bottom: 1px solid #e9e9e9;text-align: center">添加图文排版</div>
+                    <div style="overflow: auto;height: 380px">
+                        <ul class="list" style="margin: 0px;text-align: center">
+                            <li id="drag17" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1jB50JpXXXXX5XpXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag18" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1J81EJpXXXXc2XVXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag19" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB14dSZJpXXXXaRXpXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag20" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB17KmUJpXXXXc7XpXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag21" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1_q1VJpXXXXcyXpXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag22" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1SEuUJpXXXXcKXpXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag23" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1fee1JpXXXXajXpXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag24" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1ezeZJpXXXXbXXpXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                            <li id="drag25" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1Mx10JpXXXXabXpXXXXXXXXXX-140-70.png"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div v-show="tableSelected" id="TableContent">
+                    <div style="height: 20px;line-height: 20px;border-bottom: 1px solid #e9e9e9;text-align: center">添加表格排版</div>
+                    <div style="overflow: auto;height: 380px">
+                        <ul style="margin: 0px;text-align: center">
+                            <li id="drag26" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1EstHIVXXXXcvXXXXXXXXXXXX.png"></div>
+                            </li>
+                            <li id="drag27" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB16cBJIVXXXXbZXXXXXXXXXXXX.png"></div>
+
+                            </li>
+                            <li id="drag28" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1IPJcIVXXXXXKXVXXXXXXXXXX.png"></div>
+
+                            </li>
+                            <li id="drag29" style="list-style: none;margin: auto;width: 80%">
+                                <div class="thumbnail"><img src="https://img.alicdn.com/tps/TB1x9VvIVXXXXXsXFXXXXXXXXXX.png"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 20px;height: 20px;position: relative;background-color: white;float: left">
+                <div @click="toggle" style="width: 20px;height: 20px;position: absolute;background-image: url(http://tvcic-public.oss-cn-shenzhen.aliyuncs.com/uploads/productauth/555747e1d942486aa1db7190dcdb5d71.png);background-repeat: no-repeat;background-position: top;background-size:cover;cursor: pointer"></div>
+            </div>
+        </div>
+        <div id="tplStr" style="display: none">
+            <div id="tpl1">
+                <div style="width: 750px;margin-top: 5px">
+                    <div style="overflow: hidden; width: 750px; height: 400px;"><img src="https://img.alicdn.com/tps/TB1r0W0JpXXXXcqXpXXXXXXXXXX-750-400.png" style="width: 750px;"></div>
+                </div>
+            </div>
+            <div id="tpl2">
+                <div style="width: 750px;margin-top: 5px">
+                    <div style="width: 370px; display: inline-block;">
+                        <div style="overflow: hidden; width: 370px; height: 320px;"><img src="https://img.alicdn.com/tps/TB1pHySJpXXXXcmXFXXXXXXXXXX-371-320.png" style="width: 371px;height : 320px ;"></div>
+                    </div><div style="width: 370px; display: inline-block; margin-left: 10px">
+                        <div style="overflow: hidden; width: 370px; height: 320px;"><img src="https://img.alicdn.com/tps/TB1pHySJpXXXXcmXFXXXXXXXXXX-371-320.png" style="width: 371px;height : 320px ;"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl3">
+                <div style="width: 750px;margin-top: 5px">
+                    <div style="width: 243.3px; display: inline-block;">
+                        <div style="overflow: hidden; width:243.3px; height: 320px;"><img src="https://img.alicdn.com/tps/TB10lKNJpXXXXX9XVXXXXXXXXXX-244-320.png" style="width: 244.656px;height: 320px ;"></div>
+                    </div><div style="width: 243.3px; display: inline-block;margin-left: 10px">
+                        <div style="overflow: hidden; width: 243.3px; height: 320px;"><img src="https://img.alicdn.com/tps/TB10lKNJpXXXXX9XVXXXXXXXXXX-244-320.png" style="width: 244.656px;height: 320px ;"></div>
+                    </div><div style="width: 243.3px; display: inline-block;margin-left: 10px">
+                        <div style="overflow: hidden; width: 243.3px; height: 320px;"><img src="https://img.alicdn.com/tps/TB10lKNJpXXXXX9XVXXXXXXXXXX-244-320.png" style="width: 244.656px;height: 320px ;"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl4">
+                <div style="width: 750px;margin-top: 5px">
+                    <div style="width: 493.3px; display: inline-block;">
+                        <div style="overflow: hidden; width: 497.344px; height: 320px;"><img src="https://img.alicdn.com/tps/TB11AaSJpXXXXa7XFXXXXXXXXXX-497-320.png" style="width: 497.344px;height: 320px ;"></div>
+                    </div><div style="width: 246.6px; display: inline-block;margin-left: 10px">
+                        <div  style="vertical-align: top;">
+                            <div style="overflow: hidden; width: 246.6px; height: 157.5px;"><img src="https://img.alicdn.com/tps/TB1Wsi0JpXXXXbsXpXXXXXXXXXX-245-156.png" style="width: 244.656px;height : 156px ;"></div>
+                        </div>
+                        <div  style="vertical-align: top;margin-top: 5px">
+                            <div style="overflow: hidden; width: 246.6px; height: 157.5px;"><img src="https://img.alicdn.com/tps/TB1Wsi0JpXXXXbsXpXXXXXXXXXX-245-156.png" style="width: 244.656px;height : 156px ;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl5">
+                    <div style="width: 750px;margin-top: 10px">
+                        <div style="width: 750px">
+                            <div style="overflow: hidden; width: 750px; height: 320px;"><img src="https://img.alicdn.com/tps/TB1gYa4JpXXXXalXpXXXXXXXXXX-750-320.png" style="width: 750px;height : 320px ;"></div>
+                        </div>
+                        <div style="width: 750px;margin-top: 10px">
+                            <div style="width:370px; display: inline-block;">
+                                <div style="overflow: hidden; width: 370px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                            </div><div  style="width: 370px; display: inline-block;margin-left: 10px">
+                                <div style="overflow: hidden; width: 370px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div id="tpl6">
+                <div style="width: 750px;margin-top: 10px">
+                    <div style="width: 493.3px; display: inline-block;">
+                        <div style="overflow: hidden; width: 493.3px; height: 526px;"><img src="https://img.alicdn.com/tps/TB1uvuRJpXXXXbPXFXXXXXXXXXX-497-526.png" style="width: 497.344px;height : 526px ;"></div>
+                    </div><div style="width:246.6px; display: inline-block;margin-left: 10px">
+                        <div style="width: 246.6px">
+                            <div style="overflow: hidden; width: 246.6px; height: 168.66px;"><img src="https://img.alicdn.com/tps/TB1k2W2JpXXXXa9XpXXXXXXXXXX-245-170.png" style="width: 244.656px;height : 170px ;"></div>
+                        </div>
+                        <div style="width: 246.6px;margin-top: 10px">
+                            <div style="overflow: hidden; width: 246.6px; height: 168.66px;"><img src="https://img.alicdn.com/tps/TB1k2W2JpXXXXa9XpXXXXXXXXXX-245-170.png" style="width: 244.656px;height : 170px ;"></div>
+                        </div>
+                        <div style="width: 246.6px;margin-top: 10px">
+                            <div style="overflow: hidden; width: 246.6px; height: 168.66px;"><img src="https://img.alicdn.com/tps/TB1k2W2JpXXXXa9XpXXXXXXXXXX-245-170.png" style="width: 244.656px;height : 170px ;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl7">
+                    <div style="width: 750px;margin-top: 10px">
+                        <div style="width: 750px">
+                            <div style="overflow: hidden; width: 750px; height: 320px;"><img src="https://img.alicdn.com/tps/TB1gYa4JpXXXXalXpXXXXXXXXXX-750-320.png" style="width: 750px;height : 320px ;"></div>
+                        </div>
+                        <div style="width: 750px;margin-top: 5px">
+                            <div style="width:246.66px;display: inline-block">
+                                <div style="overflow: hidden; width: 246.66px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1yh91JpXXXXbsXpXXXXXXXXXX-244-200.png" style="width: 244.656px;height: 200px ;"></div>
+                            </div><div style="width:246.66px;display: inline-block;margin-left: 5px">
+                                <div style="overflow: hidden; width: 246.66px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1yh91JpXXXXbsXpXXXXXXXXXX-244-200.png" style="width: 244.656px;height: 200px ;"></div>
+                            </div><div style="width: 246.66px;display: inline-block;margin-left: 5px">
+                                <div style="overflow: hidden; width: 246.66px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1yh91JpXXXXbsXpXXXXXXXXXX-244-200.png" style="width: 244.656px;height: 200px ;"></div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div id="tpl8">
+                    <div style="width: 750px;margin-top: 10px">
+                        <div style="width: 183.75px; display: inline-block;">
+                            <div style="overflow: hidden; width: 183.75px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1p6COJpXXXXXCXVXXXXXXXXXX-181-200.png" style="width: 181.5px;height : 200px ;"></div>
+                        </div><div style="width: 183.75px; display: inline-block;margin-left: 5px">
+                            <div style="overflow: hidden; width: 183.75px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1p6COJpXXXXXCXVXXXXXXXXXX-181-200.png" style="width: 181.5px;height : 200px ;"></div>
+                        </div><div style="width: 183.75px; display: inline-block; margin-left: 5px">
+                            <div style="overflow: hidden; width: 183.75px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1p6COJpXXXXXCXVXXXXXXXXXX-181-200.png" style="width: 181.5px;height : 200px ;"></div>
+                        </div><div style="width: 183.75px; display: inline-block;margin-left: 5px">
+                            <div style="overflow: hidden; width: 183.75px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1p6COJpXXXXXCXVXXXXXXXXXX-181-200.png" style="width: 181.5px;height : 200px ;"></div>
+                        </div>
+                    </div>
+            </div>
+            <div id="tpl9">
+                    <div style="margin-top: 10px">
+                        <div style="vertical-align: top; box-sizing: border-box; padding-right: 4px; padding-left: 4px;margin-top: -4px; margin-bottom: -4px;">
+                            <div id="xgqos" style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                            </div>
+                            <div id="80822" style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine
+                                    Bottle&nbsp;Moulding Machine<br>PET Bottle Making Machine&nbsp;is suitable for producing PET plastic
+                                    containers and bottles in all shapes. <br>It is widely used to produce the carbonated bottle, mineral
+                                    water, pesticide bottle oil bottle cosmetics, wide-mouth bottle and hot fill bottle etc. <br>Beverage
+                                    bottle, cosmetic bottle, medicine bottle, jar etc.<br>Lorem Ipsum is simply dummy text of the printing
+                                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div id="tpl10">
+                <div style="margin-top: 10px">
+                    <div style="vertical-align: top; box-sizing: border-box; padding-right: 4px; padding-left: 4px">
+                        <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle Making
+                            Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes. <br>It is widely
+                            used to produce the carbonated bottle, mineral water, pesticide bottle oil bottle cosmetics, wide-mouth bottle
+                            and hot fill bottle etc. <br>Beverage bottle, cosmetic bottle, medicine bottle, jar etc.<br>Lorem Ipsum is
+                            simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                            dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+                            type specimen book.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl11">
+                <div style="margin-top: 10px;width: 750px">
+                    <div style="width:370px; display: inline-block;vertical-align: top">
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                        </div>
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div><div style="width: 370px; display: inline-block;margin-left: 10px;vertical-align: top">
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                        </div>
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl12">
+                <div style="vertical-align: top;margin-top: 10px;width: 750px">
+                    <div style="vertical-align: top;width: 750px">
+                        <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                    </div>
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="vertical-align: top; width: 370px; display: inline-block;">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div><div style="vertical-align: top; width: 370px; display: inline-block; margin-left: 10px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl13">
+                <div style="vertical-align: top;margin-top: 10px;width: 750px">
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="vertical-align: top; width: 370px; display: inline-block;">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div><div style="vertical-align: top; width: 370px; display: inline-block; margin-left: 10px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl14">
+                <div style="margin-top: 10px;width: 750px">
+                    <div style="width:243.33px; display: inline-block;vertical-align: top">
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                        </div>
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div><div style="width: 243.33px; display: inline-block;margin-left: 10px;vertical-align: top">
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                        </div>
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div><div style="width: 243.33px; display: inline-block;margin-left: 10px;vertical-align: top">
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                        </div>
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl15">
+                <div style="vertical-align: top;margin-top: 10px;width: 750px">
+                    <div style="vertical-align: top;width: 750px">
+                        <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                    </div>
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="vertical-align: top; width: 243.33px; display: inline-block;">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block; margin-left: 10px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block; margin-left: 10px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl16">
+                <div style="vertical-align: top;margin-top: 10px;width: 750px">
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="vertical-align: top; width: 243.33px; display: inline-block;">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block; margin-left: 10px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block; margin-left: 10px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl17">
+                <div style="vertical-align: top;width: 750px;margin-top: 10px">
+                    <div style="vertical-align: top; width: 370px; display: inline-block;">
+                        <div style="overflow: hidden; width: 370px; height: 220px;"><img src="https://img.alicdn.com/tps/TB1aVzXJpXXXXazXXXXXXXXXXXX-371-220.png" style="width: 371px;height: 220px ;"></div>
+                    </div><div style="vertical-align: top; width: 370px; display: inline-block; margin-left: 10px">
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                        </div>
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl18">
+                <div style="vertical-align: top;width: 750px;margin-top: 10px">
+                    <div style="vertical-align: top; width: 370px; display: inline-block; ">
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                        </div>
+                        <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                            <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine<br>PET Bottle
+                                Making Machine&nbsp;is suitable for producing PET plastic containers and bottles in all shapes.</p>
+                        </div>
+                    </div><div style="vertical-align: top; width: 370px; display: inline-block;margin-left: 10px">
+                        <div style="overflow: hidden; width: 370px; height: 220px;"><img src="https://img.alicdn.com/tps/TB1aVzXJpXXXXazXXXXXXXXXXXX-371-220.png" style="width: 371px;height: 220px ;"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl19">
+                <div style="vertical-align:top;width: 750px;margin-top: 10px">
+                    <div style="vertical-align: top; width: 370px;display: inline-block">
+                        <div style="overflow: hidden; width: 370px; height: 320px;"><img src="https://img.alicdn.com/tps/TB1pHySJpXXXXcmXFXXXXXXXXXX-371-320.png" style="width: 371px;height : 320px ;"></div>
+                    </div><div style="vertical-align: top; width: 370px; display: inline-block;margin-left: 10px">
+                        <table style="width: auto; border-collapse: collapse; word-wrap: break-word;" class="aliDataTable">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color: rgb(218, 226, 237);">
+                                        <div style="width: 70px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                    <td style="background-color: rgb(218, 226, 237);">
+                                        <div style="width: 254px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: rgb(236, 241, 247);">
+                                        <div style="width: 70px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                    <td>
+                                        <div style="width: 254px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: rgb(236, 241, 247);">
+                                        <div style="width: 70px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                    <td>
+                                        <div style="width: 254px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: rgb(236, 241, 247);">
+                                        <div style="width: 70px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                    <td>
+                                        <div style="width: 254px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: rgb(236, 241, 247);">
+                                        <div style="width: 70px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                    <td>
+                                        <div style="width: 254px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: rgb(236, 241, 247);">
+                                        <div style="width: 70px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                    <td>
+                                        <div style="width: 254px; height: 42px; padding: 5px 10px; overflow: hidden;"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl20">
+                <div style="vertical-align: top; width: 750px;">
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="overflow: hidden; width: 750px; height: 320px;"><img src="https://img.alicdn.com/tps/TB1gYa4JpXXXXalXpXXXXXXXXXX-750-320.png" style="width: 750px;height : 320px ;"></div>
+                    </div>
+                    <div  style="vertical-align: top; width: 750px;margin-top: 5px">
+                        <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                    </div>
+                    <div  style="vertical-align: top;width: 750px;margin-top: 5px">
+                        <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl21">
+                <div style="vertical-align: top; width: 750px;">
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="overflow: hidden; width: 750px; height: 320px;"><img src="https://img.alicdn.com/tps/TB1gYa4JpXXXXalXpXXXXXXXXXX-750-320.png" style="width: 750px;height : 320px ;"></div>
+                    </div>
+                    <div  style="vertical-align: top;width: 750px;margin-top: 5px">
+                        <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl22">
+                <div style="width: 750px;margin-top: 10px">
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="vertical-align: top; width: 370px; display: inline-block;">
+                            <div style="overflow: hidden; width: 370px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div><div style="vertical-align: top; width: 370px; display: inline-block; margin-left: 10px">
+                            <div style="overflow: hidden; width: 370px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div>
+                    </div>
+                    <div style="width: 750px;margin-top: 5px">
+                        <div style="vertical-align: top; width: 370px; display: inline-block;">
+                            <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                            </div>
+                            <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div><div style="vertical-align: top; width: 370px; display: inline-block;margin-left: 10px">
+                            <div  style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                            </div>
+                            <div  style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl23">
+                <div style="width: 750px;margin-top: 10px">
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="vertical-align: top; width: 370px; display: inline-block;">
+                            <div style="overflow: hidden; width: 370px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div><div style="vertical-align: top; width: 370px; display: inline-block; margin-left: 10px">
+                            <div style="overflow: hidden; width: 370px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div>
+                    </div>
+                    <div style="width: 750px;margin-top: 5px">
+                        <div style="vertical-align: top; width: 370px; display: inline-block;">
+                            <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div><div style="vertical-align: top; width: 370px; display: inline-block;margin-left: 10px">
+                            <div  style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl24">
+                <div style="width: 750px;margin-top: 10px">
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="vertical-align: top; width: 243.33px; display: inline-block;">
+                            <div style="overflow: hidden; width: 243.33px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block; margin-left: 10px">
+                            <div style="overflow: hidden; width: 243.33px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block; margin-left: 10px">
+                            <div style="overflow: hidden; width: 243.33px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div>
+                    </div>
+                    <div style="width: 750px;margin-top: 5px">
+                        <div style="vertical-align: top; width: 243.33px; display: inline-block;">
+                            <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                            </div>
+                            <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block;margin-left: 10px">
+                            <div  style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                            </div>
+                            <div  style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block;margin-left: 10px">
+                            <div  style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <h3 style="padding:0;font-size:16px;line-height:20px;font-weight:bold;color:#333;margin:0;">Title goes here.</h3>
+                            </div>
+                            <div  style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tpl25">
+                <div style="width: 750px;margin-top: 10px">
+                    <div style="vertical-align: top;width: 750px">
+                        <div style="vertical-align: top; width: 243.33px; display: inline-block;">
+                            <div style="overflow: hidden; width: 243.33px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block; margin-left: 10px">
+                            <div style="overflow: hidden; width: 243.33px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block; margin-left: 10px">
+                            <div style="overflow: hidden; width: 243.33px; height: 200px;"><img src="https://img.alicdn.com/tps/TB1Xx9_JpXXXXboXXXXXXXXXXXX-371-200.png" style="width: 371px;height : 200px ;"></div>
+                        </div>
+                    </div>
+                    <div style="width: 750px;margin-top: 5px">
+                        <div style="vertical-align: top; width: 243.33px; display: inline-block;">
+                            <div style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block;margin-left: 10px">
+                            <div  style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div><div style="vertical-align: top; width: 243.33px; display: inline-block;margin-left: 10px">
+                            <div  style="vertical-align: top; box-sizing: border-box; padding-top: 4px; padding-bottom: 4px">
+                                <p style="margin:0;padding:0;">Semi-Automatic PET Bottle Blowing Machine Bottle Making Machine Bottle&nbsp;Moulding Machine.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="cssTpl">
+        <style>
+            #VueCtr .thumbnail:hover {
+                border: 2px solid red;
+                cursor: move
+            }
+            
+            #VueCtr .list li {
+                margin-top: 10px!important;
+            }
+        </style>
+    </div>
+</body>
+
+</html>
