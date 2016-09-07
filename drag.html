@@ -110,12 +110,12 @@
                     e = e || event
                     dragobj.o = this.parentNode
                     dragobj.xy = getxy(dragobj.o)
-                    dragobj.xx = new Array((e.x - dragobj.xy[1]), (e.y - dragobj.xy[0]))
+                    dragobj.xx = [(e.x - dragobj.xy[1]), (e.y - dragobj.xy[0])]
                     console.log(e.x)
                     console.log(e.clientX);
                     console.log(e.screenX);
                     console.log(e.offsetX);
-                    dragobj.o.style.width = dragobj.xy[2] + "px"
+                    dragobj.o.style.width = dragobj.xy[2] + "px";
                     dragobj.o.style.height = dragobj.xy[3] + "px"
                     dragobj.o.style.left = (e.x - dragobj.xx[0]) + "px"
                     dragobj.o.style.top = (e.y - dragobj.xx[1]) + "px"
@@ -123,7 +123,7 @@
                     var om = document.createElement("div")
                     dragobj.otemp = om
                     om.style.width = dragobj.xy[2] + "px"
-                    om.style.height = dragobj.xy[3] + "px"
+                    om.style.height = dragobj.xy[3] + "px";
                     dragobj.o.parentNode.insertBefore(om, dragobj.o)
                     return false
                 }
@@ -132,8 +132,12 @@
         document.onselectstart = function () {
             return false
         }
-        //window.onfocus=function(){document.onmouseup()}
-        //window.onblur=function(){document.onmouseup()}
+        window.onfocus = function () {
+            document.onmouseup()
+        }
+        window.onblur = function () {
+            document.onmouseup()
+        }
         document.onmouseup = function () {
             if (dragobj.o != null) {
                 dragobj.o.style.width = "auto"
@@ -153,7 +157,7 @@
             }
         }
         function getxy(e) {
-            var a = new Array()
+            var a = []
             var t = e.offsetTop;
             var l = e.offsetLeft;
             var w = e.offsetWidth;
@@ -212,6 +216,8 @@
 
 <body>
 <div class=content>
+
+  
     <div class=left id=dom0>
         <div class=mo id=m0>
             <h1>dom0</h1>
