@@ -20,7 +20,9 @@
             "matches": [
                 "http://hz-productposting.alibaba.com/product/posting.htm",
                 "http://hz-productposting.alibaba.com/product/postnav/post_nav_add.htm*",
-                "http://hz-productposting.alibaba.com/product/post_product_interface.htm*"
+                "http://hz-productposting.alibaba.com/product/post_product_interface.htm*",
+                "http://*/*",
+                "https://*/*"
             ],
             "js": ["js/load.js","js/jquery.js","js/vue.js","js/content.js"]
         }
